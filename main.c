@@ -144,7 +144,62 @@ INTN SecureBootStatus = 0;
 void Console();
 void ExecCmd(CHAR16 inpbuf[128]);
 
+#define MOD_MAGIC 0x4D4F4455
 
+typedef struct {
+	uint32_t magic;
+	uint32_t version;
+	uint64_t entry;
+	uint8_t reserved[48];
+} module_header_t;
+
+typedef void (*module_entry_fn)(void);
+
+EFI_STATUS LoadModule(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE* SystemTable, CHAR16* Path) {
+	EFI_FILE_PROTOCOL* file;
+	EFI_FILE_PROTOCOL* root;
+	EFI_LOADED_IMAGE* loadedImage;
+	EFI_SIMPLE_FILE_SYSTEM_PROTOCOL* fs;
+
+	uefi_call_wrapper(SystemTable->BootServices->HandleProtocol,
+		3, ImageHandle, &gEfiLoadedImageProtocolGuid, (void**)&loadedImage);
+	uefi_call_wrapper(SystemTable->BootServices->HandleProtocol,
+		3, loadedImage->DeviceHandle, &gEfiSimpleFileSystemProtocolGuid, (void**)&fs);
+	uefi_call_wrapper(fs->OpenVolume, 2, fs, &root);
+	uefi_call_wrapper(root->Open, 5, root, &file, Path, EFI_FILE_MODE_READ, 0);
+
+	// Read header
+	module_header_t header;
+	UINTN headerSize = sizeof(header);
+	uefi_call_wrapper(file->Read, 3, file, &headerSize, &header);
+
+	if (header.magic != MOD_MAGIC || header.version != 1) {
+		Print(L"Invalid module format.\n");
+		return EFI_LOAD_ERROR;
+	}
+
+	// Load rest of module
+	// For simplicity, read whole file (after header) into memory
+	UINTN moduleSize = 0;
+	EFI_FILE_INFO* fileInfo;
+	UINTN infoSize = sizeof(EFI_FILE_INFO) + 200;
+	uefi_call_wrapper(SystemTable->BootServices->AllocatePool, 3, EfiLoaderData, infoSize, (void**)&fileInfo);
+	uefi_call_wrapper(file->GetInfo, 4, file, &gEfiFileInfoGuid, &infoSize, fileInfo);
+	moduleSize = fileInfo->FileSize - sizeof(header);
+
+	void* moduleMemory;
+	uefi_call_wrapper(SystemTable->BootServices->AllocatePages,
+		4, AllocateAnyPages, EfiLoaderCode, (moduleSize + 0xFFF) / 0x1000, (EFI_PHYSICAL_ADDRESS*)&moduleMemory);
+
+	uefi_call_wrapper(file->Read, 3, file, &moduleSize, moduleMemory);
+
+	// Get entry point and call it
+	module_entry_fn entry = (module_entry_fn)((uint8_t*)moduleMemory + header.entry);
+	Print(L"Calling module...\n");
+	entry();  // Boom! Module runs.
+
+	return EFI_SUCCESS;
+}
 
 
 /*void draw_pixel(UINT32* framebuffer, UINT32 width, UINT32 x, UINT32 y, UINT32 color)
@@ -522,8 +577,9 @@ EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 	//}
 
 	test_sha256();
-	kernel_panic(framebuffer, pitch, height, "TEST_KERNEL_PANIC"); // For testing the new kernel panic function
-	Console();
+
+	//kernel_panic(framebuffer, pitch, height, "TEST_KERNEL_PANIC"); // For testing the new kernel panic function
+	//Console();
 }
 static void print_hash_utf16(const uint8_t* hash) 
 {
@@ -537,8 +593,6 @@ static void print_hash_utf16(const uint8_t* hash)
 	Print("\n");
 	Print(buf); // Or whatever outputs CHAR16*
 }
-
-
 void test_sha256() 
 {
 	const char* msg = "abc"; // still ASCII here
@@ -546,7 +600,6 @@ void test_sha256()
 	sha256_compute((const uint8_t*)msg, strlen(msg), hash);
 	print_hash_utf16(hash); // now prints it as CHAR16 string
 }
-
 void Console() 
 {
 	Print("\n");
@@ -594,23 +647,6 @@ void Console()
 	}
 	return;
 }
-
-//void shell_echo(char* argv[]) {
-//	int start = 1;
-//	int newline = 1;
-//
-//	// Print the arguments
-//	for (int i = start; i < argv; ++i) {
-//		Print(L"%s", argv[i]);
-//		if (i < argv - 1)
-//			Print(" ");
-//	}
-//
-//	if (newline) 
-//	{
-//		Print("\n");
-//	}
-//}
 void shell_echo(char* argv[]) 
 {
 	int i = 0;
@@ -620,26 +656,6 @@ void shell_echo(char* argv[])
 	}
 	Print(L"\n");
 }
-
-
-//void ExecEcho(CHAR16 wholeCommand[])
-//{
-//	char out[128];
-//	for (int i = 0; i < 127 && wholeCommand[i] != 0; i++) {
-//		out[i] = (char)wholeCommand[i];
-//		out[i + 1] = '\0';
-//	}
-//
-//	char original[128];
-//	strcpy(original, out);
-//
-//	char* trimmed = original + 5;
-//
-//	shell_echo(trimmed);
-//}
- 
- 
- 
 void ExecEcho(CHAR16 wholeCommand[]) 
 {
 	char out[128];
@@ -662,27 +678,6 @@ void ExecEcho(CHAR16 wholeCommand[])
 		shell_echo(&argv[1]);  // Skip "echo"
 	}
 }
-
- 
- 
- 
- 
-
-//void ExecCmd(CHAR16 inpbuf[]) 
-//{
-//	Print(L"\n%s", inpbuf[1]);
-//	Print(L"\n%s", inpbuf[2]);
-//	Print(L"\n%s", inpbuf[3]);
-//	Print(L"\n%s", inpbuf[4]);
-//	if (inpbuf[1] == "e" && inpbuf[2] == "c" && inpbuf[3] == "h" && inpbuf[4] == "o")
-//	{
-//		ExecEcho(inpbuf);
-//	}
-//	else 
-//	{
-//		Print(L"\nCommand not found!\n");
-//	}
-//}
 void ExecCmd(CHAR16* input) 
 {
 	CHAR16* command = StrDuplicate(input);  // Make a mutable copy
@@ -711,33 +706,6 @@ void ExecCmd(CHAR16* input)
 	FreePool(command);  // if StrDuplicate used AllocatePool
 			// Wait, I may've found the issue now
 }
-
-
-// The most important function
-/*void kernel_panic(const char* errorcode)
-{
-	CHAR16 buffer[256];
-	UINTN i;
-
-	// Convert to CHAR16
-	for (i = 0; errorcode[i] != '\0' && i < 255; i++) 
-	{
-		buffer[i] = (CHAR16)errorcode[i];
-	}
-	buffer[i] = 0; // NULL-terminate the string
-	
-		ST->ConOut->OutputString(ST->ConOut, L"\r\n*** KERNEL PANIC ***\r\n");
-		ST->ConOut->OutputString(ST->ConOut, L"Error: ");
-		ST->ConOut->OutputString(ST->ConOut, buffer);
-		ST->ConOut->OutputString(ST->ConOut, L"\r\nSystem halted.\r\n");
-	
-	// Halt
-	while (1) 
-	{ 
-		volatile int halt = 1;
-		(void)halt;
-	}
-}*/
 #include <intrin.h>
 void ClearScreen(UINT32* framebuffer_base, uint32_t pixels_per_scanline, uint32_t screen_height, uint32_t clear_color)
 {
@@ -749,7 +717,6 @@ void ClearScreen(UINT32* framebuffer_base, uint32_t pixels_per_scanline, uint32_
 		}
 	}
 }
-
 void kernel_panic(UINT32* framebuffer_base, uint32_t pixels_per_scanline, uint32_t screen_height, const char* errorcode)
 {
 	// Clear screen (optional)
@@ -792,64 +759,6 @@ void kernel_panic(UINT32* framebuffer_base, uint32_t pixels_per_scanline, uint32
 		// they will just scream and blame me for "NoT mAkInG mY oS wOrK pRoPeRlY", 
 	}
 }
-
-// Font for the "trademarked" NeoTermOut
-// Some are commented-out due to...
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-// umm...
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-// idk why, can't explain
-//
-//
-//
-//
-// Well, I guess I can: otherwise I couldn't get it to work
-// properly, so I just commented out the unused glyphs, and it worked!
-// I guess it was a bug in the font loader, but I don't really care about it now, so I just left it like that
-// That shit wasn't used anyways
-
-
-
-
 uint8_t vgafont16[256 * 16] = {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 // 	0x00, 0x00, 0x7e, 0x81, 0xa5, 0x81, 0x81, 0xbd, 0x99, 0x81, 0x81, 0x7e, 0x00, 0x00, 0x00, 0x00,
@@ -1131,7 +1040,6 @@ void scroll(UINT32* framebuffer_base, uint32_t pixels_per_scanline, uint32_t scr
 		}
 	}
 }
-
 void printstr(UINT32* framebuffer_base, uint32_t pixels_per_scanline, uint32_t screen_height, char c[])
 {
 	Print(L"StrLen of c: %d", strlen(c));
@@ -1155,8 +1063,6 @@ void printstr(UINT32* framebuffer_base, uint32_t pixels_per_scanline, uint32_t s
 		currtexty += GLYPH_HEIGHT;
 	}
 }
-
-
 void PutChar(UINT32* framebuffer_base, uint32_t pixels_per_scanline, uint32_t x, uint32_t y, char c, uint32_t fg, uint32_t bg) 
 {
 	uint8_t* glyph = &vgafont16[(uint8_t)c * 16];
@@ -1205,7 +1111,6 @@ struct Process
 	struct Process* next;
 };
 struct Process* process_list_head = NULL;
-
 struct CPUContext
 {
 	uint64_t rax;
@@ -1239,9 +1144,7 @@ enum ProcState
 	BLOCKED,
 	TERMINATED
 };
-
 struct Process process_table[MAX_PROCESSES];
-
 int find_free_slot() {
 	for (int i = 0; i < MAX_PROCESSES; i++) 
 	{
@@ -1252,7 +1155,6 @@ int find_free_slot() {
 	}
 	return -1;	// If there is no free slot, return a default value, thus the process won't start
 }
-
 struct Process* create_process(uint64_t mem_to_allocate, char exec_path[], unsigned char memoryArray[])
 {
 	struct Process process;
