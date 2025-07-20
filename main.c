@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include "INCLUDE/CryptoAndModuleSigEnforcement/crypto.c"
-
+#include "acpi.h"
 
 
 
@@ -177,6 +177,9 @@ INTN SecureBootStatus = 0;
 void Console();
 void ExecCmd(CHAR16 inpbuf[128]);
 void PrintEHCIInfo(uintptr_t bar);
+
+// After ExitBootServices
+void kinit();
 #define MOD_MAGIC 0x4D4F4455
 
 typedef struct {
@@ -396,7 +399,64 @@ typedef struct
 } BMPHeader;
 #pragma pack(pop)
 EFI_SIMPLE_POINTER_PROTOCOL* mouse;	// Fuck it's unused as of 15.05.2025 anyways
+#define SLP_TYP5  (5 << 10)
+#define SLP_EN    (1 << 13)
+extern void outw(unsigned short port, unsigned short value);
+void shutdown_system(EFI_SYSTEM_TABLE* SystemTable) {
+	// 1. Find RSDP in UEFI ConfigurationTable
+	RSDPDescriptor20* rsdp = NULL;
+	EFI_GUID acpi2_guid = ACPI_20_TABLE_GUID;
+	EFI_GUID acpi1_guid = ACPI_TABLE_GUID;
 
+	for (UINTN i = 0; i < SystemTable->NumberOfTableEntries; i++) {
+		EFI_CONFIGURATION_TABLE* table = &SystemTable->ConfigurationTable[i];
+		if (CompareGuid(&table->VendorGuid, &acpi2_guid) || CompareGuid(&table->VendorGuid, &acpi1_guid)) {
+			rsdp = (RSDPDescriptor20*)table->VendorTable;
+			break;
+		}
+	}
+
+	if (!rsdp) {
+		Print(L"RSDP not found.\n");
+		return;
+	}
+
+	// 2. Get XSDT and parse entries
+	XSDT* xsdt = (XSDT*)(uintptr_t)(rsdp->XsdtAddress);
+	UINTN entries = (xsdt->Header.Length - sizeof(ACPISDTHeader)) / sizeof(uint64_t);
+	FADT* fadt = NULL;
+
+	for (UINTN i = 0; i < entries; i++) {
+		ACPISDTHeader* hdr = (ACPISDTHeader*)(uintptr_t)(xsdt->Entries[i]);
+		if (hdr->Signature[0] == 'F' && hdr->Signature[1] == 'A' &&
+			hdr->Signature[2] == 'C' && hdr->Signature[3] == 'P') {
+			fadt = (FADT*)hdr;
+			break;
+		}
+	}
+
+	if (!fadt) {
+		Print(L"FADT not found.\n");
+		return;
+	}
+
+	// 3. Write shutdown command
+	uint16_t pm1a = fadt->PM1a_CNT_BLK;
+	if (!pm1a) {
+		Print(L"PM1a_CNT_BLK not defined.\n");
+		return;
+	}
+
+	// Use inline assembly to write to I/O port
+	uint16_t shutdown_val = SLP_TYP5 | SLP_EN;
+	Print(L"Shutting down...");
+	outw((uint16_t)fadt->PM1a_CNT_BLK, shutdown_val);
+	Print(L"Shutting down via ACPI didn't work for some reason, resorting to QEMU-specific way");
+	outw(0x604, 0x2000);  // QEMU ACPI shutdown
+	// Halt fallback
+	Print(L"Shutting down didn't work, halting...");
+	for (;;) __halt();
+}
 // Application entrypoint (must be set to 'efi_main' for gnu-efi crt0 compatibility)
 EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 {
@@ -584,21 +644,7 @@ EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 	UINTN descriptorSize;
 	UINT32 descriptorVersion;
 
-	// First call to get the required buffer size
-	gBS->GetMemoryMap(&memoryMapSize, memoryMap, &mapKey, &descriptorSize, &descriptorVersion);
 
-	// Allocate the memory map buffer (add extra room just in case)
-	memoryMap = AllocatePool(memoryMapSize + extraPadding);
-
-	// Call again to actually get the memory map
-	//gBS->GetMemoryMap(&memoryMapSize, memoryMap, &mapKey, &descriptorSize, &descriptorVersion);
-
-	// Finally, exit boot services
-	//status = gBS->ExitBootServices(ImageHandle, mapKey);
-	if (EFI_ERROR(status)) {
-		// Memory map likely changed
-	//	kernel_panic("EXITBOOTSERVICES_MEMORYMAP_LIKELY_CHANGED");
-	}
 	// No more boot services, yahoo!
 	//isNeoTermOutCrash = 1;
 	neotermout_cls(framebuffer, pitch, height, 0xFFFFFFFF, 0x00000098);
@@ -685,7 +731,25 @@ EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 	}
 	//uint32_t bar0_raw = pci_read_config(bus, device, function, 0x10);
 	PrintEHCIInfo(bar);
-	for (;;);
+	//shutdown_system(SystemTable);
+	//for (;;);
+
+	// First call to get the required buffer size
+	gBS->GetMemoryMap(&memoryMapSize, memoryMap, &mapKey, &descriptorSize, &descriptorVersion);
+
+	// Allocate the memory map buffer (add extra room just in case)
+	memoryMap = AllocatePool(memoryMapSize + extraPadding);
+
+	// Call again to actually get the memory map
+	gBS->GetMemoryMap(&memoryMapSize, memoryMap, &mapKey, &descriptorSize, &descriptorVersion);
+
+	// Finally, exit boot services
+	status = gBS->ExitBootServices(ImageHandle, mapKey);
+	if (EFI_ERROR(status)) {
+		// Memory map likely changed
+		kernel_panic(GOP_public_framebuffer, GOP_public_pitch, GOP_public_height, "EXITBOOTSERVICES_MEMORYMAP_LIKELY_CHANGED");
+	}
+	kinit();
 }
 /*#include <Uefi.h>
 #include <Library/UefiLib.h>
@@ -1300,13 +1364,13 @@ struct Process* create_process(uint64_t mem_to_allocate, char exec_path[], unsig
 // 
 //✅ USB Driver Development Checklist(x86_64 UEFI Kernel)
 //🧱 Stage 1: Foundation Layer
-//⬜ 1. PCI Bus Scanning
+//[+/-] 1. PCI Bus Scanning
 //
-//Enumerate PCI devices.
+//✅Enumerate PCI devices.
 //
-//Detect USB controllers by class code(Class 0x0C, Subclass 0x03).
+//✅Detect USB controllers by class code(Class 0x0C, Subclass 0x03).
 //
-//Read BARs to get memory - mapped I / O addresses.
+//✅Read BARs to get memory - mapped I / O addresses.
 //
 //Identify controller type(UHCI / OHCI / EHCI / XHCI).
 //
@@ -1396,3 +1460,9 @@ struct Process* create_process(uint64_t mem_to_allocate, char exec_path[], unsig
 //Plan for mouse, gamepads, and hubs.
 //
 //Eventually support mass storage(SCSI over USB).
+
+// Initialise the kernel after we've done everything and have called ExitBootServices
+void kinit() 
+{
+	
+}
