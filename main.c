@@ -5,8 +5,8 @@
 #include <stdlib.h>
 #include "INCLUDE/CryptoAndModuleSigEnforcement/crypto.c"
 #include "acpi.h"
-
-
+#include "Devices/_devices.c"
+#include "bugcheck/bugcheck.c"
 
 
 
@@ -35,7 +35,7 @@ UINT32* GOP_public_pitch, GOP_public_height;
 
 
 
-
+void kmain(UINT32* framebuffer_base, uint32_t pixels_per_scanline, uint32_t screen_width, uint32_t screen_height);
 
 
 // For processes
@@ -114,34 +114,34 @@ int CharToGlyph(char c)
 {
 	switch (c) 
 	{
-	case ' ': return 0x0;
-	case 'A': return 0x1;
-	case 'B': return 0x2;
-	case 'C': return 0x3;
-	case 'D': return 0x4;
-	case 'E': return 0x5;
-	case 'F': return 0x6;
-	case 'G': return 0x7;
-	case 'H': return 0x8;
-	case 'I': return 0x9;
-	case 'J': return 0xA;
-	case 'K': return 0xB;
-	case 'L': return 0xC;
-	case 'M': return 0xD;
-	case 'N': return 0xE;
-	case 'O': return 0xF;
-	case 'P': return 0x10;
-	case 'Q': return 0x11;
-	case 'R': return 0x12;
-	case 'S': return 0x13;
-	case 'T': return 0x14;
-	case 'U': return 0x15;
-	case 'V': return 0x16;
-	case 'W': return 0x17;
-	case 'X': return 0x18;
-	case 'Y': return 0x19;
-	case 'Z': return 0x1A;
-	default: return -1;
+		case ' ': return 0x0;
+		case 'A': return 0x1;
+		case 'B': return 0x2;
+		case 'C': return 0x3;
+		case 'D': return 0x4;
+		case 'E': return 0x5;
+		case 'F': return 0x6;
+		case 'G': return 0x7;
+		case 'H': return 0x8;
+		case 'I': return 0x9;
+		case 'J': return 0xA;
+		case 'K': return 0xB;
+		case 'L': return 0xC;
+		case 'M': return 0xD;
+		case 'N': return 0xE;
+		case 'O': return 0xF;
+		case 'P': return 0x10;
+		case 'Q': return 0x11;
+		case 'R': return 0x12;
+		case 'S': return 0x13;
+		case 'T': return 0x14;
+		case 'U': return 0x15;
+		case 'V': return 0x16;
+		case 'W': return 0x17;
+		case 'X': return 0x18;
+		case 'Y': return 0x19;
+		case 'Z': return 0x1A;
+		default: return -1;
 	}
 }
 
@@ -179,7 +179,7 @@ void ExecCmd(CHAR16 inpbuf[128]);
 void PrintEHCIInfo(uintptr_t bar);
 
 // After ExitBootServices
-void kinit();
+void kinit(UINT32* framebuffer_base, uint32_t pixels_per_scanline, uint32_t screen_width, uint32_t screen_height);
 #define MOD_MAGIC 0x4D4F4455
 
 typedef struct {
@@ -643,113 +643,33 @@ EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 	UINTN mapKey;
 	UINTN descriptorSize;
 	UINT32 descriptorVersion;
-
-
-	// No more boot services, yahoo!
-	//isNeoTermOutCrash = 1;
 	neotermout_cls(framebuffer, pitch, height, 0xFFFFFFFF, 0x00000098);
 	print(framebuffer, pitch, 0, 0, "NEOTERMOUT(TM)", 0xFFFFFFFF, 0x00000098);
 	print(framebuffer, pitch, 0, 16, "THIS MESSAGE CONFIRMS THAT THE NEW TERMINAL OUTPUT", 0xFFFFFFFF, 0x00000098);
 	print(framebuffer, pitch, 0, 32, "IS INDEED WORKING CORRECTLY", 0xFFFFFFFF, 0x00000098);
-	// The only usages of the "trademarked" NeoTermOut (as of 15.05.2025)
-
-	// ???????????
-	//while (1) 
-	//{
-	//
-	//}
-
 	test_sha256();
-	//LoadModule(ImageHandle, SystemTable, L"\\MODULES\\BADMODULE.BIN");
-	//LoadModule(ImageHandle, SystemTable, L"\\MODULES\\BOOTASM.BIN");
-	//kernel_panic(framebuffer, pitch, height, "TEST_KERNEL_PANIC"); // For testing the new kernel panic function
-	//Console();
 	Print(L"\n");
-	EFI_HANDLE* handle_buffer;
-	UINTN handle_count;
-	EFI_PCI_IO_PROTOCOL* pci_io;
-
-	status = uefi_call_wrapper(BS->LocateHandleBuffer,
-		5,
-		ByProtocol,
-		&gEfiPciIoProtocolGuid,
-		NULL,
-		&handle_count,
-		&handle_buffer);
-
-	if (EFI_ERROR(status)) {
-		Print(L"Failed to locate PCI handles: %r\n", status);
-		//for (;;);
-		return status;
-	}
-	for (UINTN i = 0; i < handle_count; i++) {
-		//EFI_PCI_IO_PROTOCOL* pci_io;
-
-		status = uefi_call_wrapper(BS->HandleProtocol, 3,
-			handle_buffer[i],
-			&gEfiPciIoProtocolGuid,
-			(void**)&pci_io);
-
-		if (EFI_ERROR(status)) {
-			Print(L"HandleProtocol failed: %r\n", status);
-			//for (;;);
-			continue;
-		}
-
-		// Read class codes
-		UINT8 class_code[3]; // [0] = Programming Interface, [1] = Subclass, [2] = Base Class
-		status = uefi_call_wrapper(pci_io->Pci.Read, 5,
-			pci_io,
-			EfiPciIoWidthUint8,
-			0x0B,  // Base Class is at offset 0x0B, so read 3 bytes
-			3,
-			class_code);
-
-		if (EFI_ERROR(status)) {
-			Print(L"Failed to read PCI class code: %r\n", status);
-			//for (;;);
-			continue;
-		}
-
-		if (class_code[2] == 0x0C && class_code[1] == 0x03) {
-			// USB controller
-			Print(L"USB controller found! IF=0x%x\n", class_code[0]);
-			//for (;;);
-		}
-	}
-	EFI_PHYSICAL_ADDRESS bar;
-
-	status = uefi_call_wrapper(pci_io->GetBarAttributes, 4,
-		pci_io,
-		0,  // BAR0 — most controllers use BAR0 for memory-mapped I/O
-		NULL,
-		&bar);
-
-	if (!EFI_ERROR(status)) {
-		Print(L"Controller BAR0 = 0x%lx\n", bar);
-		//for (;;);
-	}
-	//uint32_t bar0_raw = pci_read_config(bus, device, function, 0x10);
-	PrintEHCIInfo(bar);
-	//shutdown_system(SystemTable);
-	//for (;;);
 
 	// First call to get the required buffer size
 	gBS->GetMemoryMap(&memoryMapSize, memoryMap, &mapKey, &descriptorSize, &descriptorVersion);
+	//Print(L"Memory map size: %d bytes\n", memoryMapSize);
 
 	// Allocate the memory map buffer (add extra room just in case)
 	memoryMap = AllocatePool(memoryMapSize + extraPadding);
+	//Print(L"Allocated memory map buffer at %p\n", memoryMap);
 
 	// Call again to actually get the memory map
 	gBS->GetMemoryMap(&memoryMapSize, memoryMap, &mapKey, &descriptorSize, &descriptorVersion);
+	//Print(L"Got memory map with %d descriptors\n", memoryMapSize / descriptorSize);
 
 	// Finally, exit boot services
 	status = gBS->ExitBootServices(ImageHandle, mapKey);
+	//Print(L"ExitBootServices status: %r\n", status);	// You won't see me if it was successful, but whatever
 	if (EFI_ERROR(status)) {
 		// Memory map likely changed
 		kernel_panic(GOP_public_framebuffer, GOP_public_pitch, GOP_public_height, "EXITBOOTSERVICES_MEMORYMAP_LIKELY_CHANGED");
 	}
-	kinit();
+	kinit(framebuffer, pitch, pitch, height);
 }
 /*#include <Uefi.h>
 #include <Library/UefiLib.h>
@@ -790,53 +710,7 @@ void test_sha256()
 	sha256_compute((const uint8_t*)msg, strlen(msg), hash);
 	print_hash_utf16(hash); // now prints it as CHAR16 string
 }
-void Console() 
-{
-	Print("\n");
-	Print(">");
-	CHAR16 inpbuffer[128];  // Buffer to store input
-	UINTN index = 0;
-	while (index < sizeof(inpbuffer) / sizeof(CHAR16) - 1) 
-	{
-		EFI_INPUT_KEY Key;
-		EFI_STATUS Status;
 
-		// Wait for key event
-		UINTN EventIndex;
-		ST->BootServices->WaitForEvent(1, &ST->ConIn->WaitForKey, &EventIndex);
-
-		// Read the key
-		Status = ST->ConIn->ReadKeyStroke(ST->ConIn, &Key);
-		if (EFI_ERROR(Status)) 
-		{
-			continue;
-		}
-
-		// Handle special keys
-		if (Key.UnicodeChar == CHAR_CARRIAGE_RETURN) 
-		{
-			inpbuffer[index] = L'\0';  // Null-terminate input
-			// Try to execute the command
-			ExecCmd(inpbuffer);
-			index = 0;
-			Print(L"\n>");  // Optional: prompt again
-		}
-
-		if (Key.UnicodeChar == CHAR_BACKSPACE && index > 0) 
-		{
-			index--;
-			Print(L"\b \b");  // Erase the last character
-			continue;
-		}
-
-		if (Key.UnicodeChar >= 32 && Key.UnicodeChar <= 126) 
-		{
-			inpbuffer[index++] = Key.UnicodeChar;
-			Print(L"%c", Key.UnicodeChar);  // Echo back
-		}
-	}
-	return;
-}
 void shell_echo(char* argv[]) 
 {
 	int i = 0;
@@ -868,7 +742,7 @@ void ExecEcho(CHAR16 wholeCommand[])
 		shell_echo(&argv[1]);  // Skip "echo"
 	}
 }
-void ExecCmd(CHAR16* input) 
+/*void ExecCmd(CHAR16* input)
 {
 	CHAR16* command = StrDuplicate(input);  // Make a mutable copy
 	CHAR16* token;
@@ -876,15 +750,15 @@ void ExecCmd(CHAR16* input)
 	CHAR16* args[10];
 	int arg_count = 0;
 
-	for (token = strtok(/*command,*/ L" ", &next_token);
+	for (token = strtok(/*command,*//* L" ", & next_token);
 		token != NULL && arg_count < 10;
-		token = strtok(/*NULL,*/ L" ", &next_token)) 
+		token = strtok(/*NULL,*/ /*L" ", & next_token))
 	{
 		args[arg_count++] = token;
 	}
 
 	if (/*arg_count >= 1 && StrCmp(args[0], "ECHO"*/
-		args[0] == (short)"echo") 
+	/*args[0] == (short)"echo")
 	{
 		ExecEcho(input);  // Or pass args
 	}
@@ -895,7 +769,7 @@ void ExecCmd(CHAR16* input)
 
 	FreePool(command);  // if StrDuplicate used AllocatePool
 			// Wait, I may've found the issue now
-}
+}*/
 #include <intrin.h>
 void ClearScreen(UINT32* framebuffer_base, uint32_t pixels_per_scanline, uint32_t screen_height, uint32_t clear_color)
 {
@@ -942,7 +816,7 @@ void kernel_panic(UINT32* framebuffer_base, uint32_t pixels_per_scanline, uint32
 	// Halt the CPU
 	while (1)
 	{
-		__halt();
+		//__halt();
 
 		//printstr(framebuffer_base, pixels_per_scanline, screen_height, "If you see me then the CPU isn't halted");
 		// OK, it's not halted, and the output is also corrupted. Ehh, whatever, the OS is still for stooooooopid users who can't read error codes,
@@ -1259,18 +1133,29 @@ void printstr(UINT32* framebuffer_base, uint32_t pixels_per_scanline, uint32_t s
 }
 void PutChar(UINT32* framebuffer_base, uint32_t pixels_per_scanline, uint32_t x, uint32_t y, char c, uint32_t fg, uint32_t bg) 
 {
+
+	int scale = 3; // Scale factor for the font
+
 	uint8_t* glyph = &vgafont16[(uint8_t)c * 16];
 
-	for (int row = 0; row < 16; ++row) 
-	{
+	for (int row = 0; row < 16; ++row) {
 		uint8_t row_bits = glyph[row];
-		for (int col = 0; col < 8; ++col) 
-		{
-			bool pixel_on = row_bits & (0x80 >> col);
-			uint32_t* pixel_ptr = framebuffer_base +
-				(y + row) * pixels_per_scanline +
-				(x + col);
-			*pixel_ptr = pixel_on ? fg : bg;
+
+		// Draw each font row `scale` times vertically
+		for (uint32_t sy = 0; sy < scale; ++sy) {
+			for (int col = 0; col < 8; ++col) {
+				bool pixel_on = row_bits & (0x80 >> col);
+
+				// Draw each pixel `scale` times horizontally
+				for (uint32_t sx = 0; sx < scale; ++sx) {
+					uint32_t* pixel_ptr =
+						framebuffer_base +
+						(y + row * scale + sy) * pixels_per_scanline +
+						(x + col * scale + sx);
+
+					*pixel_ptr = pixel_on ? fg : bg;
+				}
+			}
 		}
 	}
 }
@@ -1279,16 +1164,16 @@ void print(UINT32* framebuffer_base, uint32_t pixels_per_scanline, uint32_t x, u
 	//Print(L"StrLen of c: %d", strlen(c));	// Are you what's breaking  the output? :)
 	for (int i = 0; i < strlen(c); i++)
 	{
-		PutChar(framebuffer_base, pixels_per_scanline, x + i * GLYPH_WIDTH, y, CharToGlyph(c[i]), fg, bg);
+		PutChar(framebuffer_base, pixels_per_scanline, x + i * GLYPH_WIDTH * 3, y, CharToGlyph(c[i]), fg, bg);
 	}
 }
 void neotermout_cls(UINT32* framebuffer, uint32_t width, uint32_t height, uint32_t fg, uint32_t bg) 
 {
 	UINT32 currentX = 0;
 	UINT32 currentY = 0;
-	for (currentY; currentY <= height; currentY++) 
+	for (currentY = 0; currentY <= height; currentY++) 
 	{
-		for (currentX; currentX <= width; currentX++) 
+		for (currentX = 0; currentX <= width; currentX++) 
 		{
 			draw_pixel(framebuffer, width, currentX, currentY, bg);
 		}
@@ -1357,112 +1242,18 @@ struct Process* create_process(uint64_t mem_to_allocate, char exec_path[], unsig
 	process.process_id = find_free_slot();
 }
 
-// I won't regret this
-
-
-//ignore pls
-// 
-//✅ USB Driver Development Checklist(x86_64 UEFI Kernel)
-//🧱 Stage 1: Foundation Layer
-//[+/-] 1. PCI Bus Scanning
-//
-//✅Enumerate PCI devices.
-//
-//✅Detect USB controllers by class code(Class 0x0C, Subclass 0x03).
-//
-//✅Read BARs to get memory - mapped I / O addresses.
-//
-//Identify controller type(UHCI / OHCI / EHCI / XHCI).
-//
-//⬜ 2. Controller Initialization
-//
-//UHCI / OHCI(Legacy — avoid unless you're targeting pre-2004)
-//
-//	EHCI(USB 2.0 — safe bet)
-//
-//	XHCI(USB 3.0 + — modern)
-//
-//	Disable legacy BIOS emulation.
-//
-//	Reset controller and initialize memory structures.
-//
-//	Set up required ring buffers or queues.
-//
-//	🛠️ Stage 2: Core USB Protocol
-//	⬜ 3. Basic USB Transfer Support
-//
-//	Implement control transfers :
-//
-//Setup → Data(optional) → Status
-//
-//Useful for GET_DESCRIPTOR, SET_ADDRESS
-//
-//Add bulk / interrupt transfer scaffolding(used by mass storage / HID).
-//
-//⬜ 4. Descriptor Parsing
-//
-//Parse :
-//
-//Device Descriptor
-//
-//Configuration Descriptor
-//
-//Interface Descriptor
-//
-//Endpoint Descriptor
-//
-//Recognize and support HID devices(Interface Class 0x03).
-//
-//⬜ 5. Device Addressing
-//
-//Assign address(via SET_ADDRESS) after detecting devices.
-//
-//Maintain a device tree or linked list of connected devices.
-//
-//🎹 Stage 3: HID Keyboard Support
-//⬜ 6. HID Class Handling
-//
-//Parse HID report descriptors.
-//
-//Poll the interrupt endpoint or handle events(depends on controller).
-//
-//Decode HID input reports(typically 8 - byte for keyboard) :
-//
-//	Modifier byte(Shift / Ctrl / Alt)
-//
-//	Reserved
-//
-//	6 keycodes
-//
-//	⬜ 7. Keycode to ASCII
-//
-//	Map HID keycodes to ASCII(with Shift handling).
-//
-//	Maintain key state(pressed / released).
-//
-//	🧪 Stage 4: Integration & Abstraction
-//	⬜ 8. Modular Interface
-//
-//	Provide clean API to kernel :
-//
-//usb_scan()
-//
-//usb_poll_keypress()
-//
-//usb_keyboard_getchar()
-//
-//Allow for module separation if needed(e.g., load usb.kmod).
-//
-//⬜ 9. Future Proofing
-//
-//Add hotplug detection(port change events).
-//
-//Plan for mouse, gamepads, and hubs.
-//
-//Eventually support mass storage(SCSI over USB).
-
 // Initialise the kernel after we've done everything and have called ExitBootServices
-void kinit() 
+void kinit(UINT32* framebuffer_base, uint32_t pixels_per_scanline, uint32_t screen_width, uint32_t screen_height)
 {
-	
+	displayInit(framebuffer_base, pixels_per_scanline, screen_width, screen_height);
+	kmain(framebuffer_base, pixels_per_scanline, screen_width, screen_height);
+}
+
+void kmain(UINT32* framebuffer_base, uint32_t pixels_per_scanline, uint32_t screen_width, uint32_t screen_height) 
+{
+	neotermout_cls(framebuffer_base, pixels_per_scanline, screen_height, 0xFFFFFFFF, 0x00000098);
+	print(framebuffer_base, pixels_per_scanline, 0, 0, "HELLO, KMAIN!\0", 0xFFFFFFFF, 0x00000098);
+	//kernel_panic(framebuffer_base, pixels_per_scanline, screen_height, "Kernel panic: This is a test panic message.");
+	//for (;;);
+	KeBugCheck2(framebuffer_base, pixels_per_scanline, screen_width, screen_height, 0x00000000);
 }

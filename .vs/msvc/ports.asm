@@ -1,4 +1,4 @@
-; ports.asm (MASM / x64-compatible)
+; ports.asm
 .code
 outw proc port:word, val:word
     mov dx, port

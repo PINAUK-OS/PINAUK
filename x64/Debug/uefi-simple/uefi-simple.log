@@ -1,31 +1,31 @@
 ﻿  main.c
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(211,40): warning C4047: 'function': 'uint32_t' differs in levels of indirection from 'UINT32 *'
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(211,40): warning C4024: 'kernel_panic': different types for formal and actual parameter 2
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(255,3): warning C4098: 'KK': 'void' function returning a value
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(248,11): warning C4244: 'initializing': conversion from 'EFI_STATUS' to 'char', possible loss of data
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(504,19): warning C4047: '=': 'UINT32 *' differs in levels of indirection from 'UINT32'
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(733,11): warning C4047: 'function': 'VOID **' differs in levels of indirection from 'EFI_PHYSICAL_ADDRESS *'
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(733,11): warning C4022: 'function through pointer': pointer mismatch for actual parameter 4
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(625,12): warning C4244: 'initializing': conversion from 'EFI_STATUS' to 'char', possible loss of data
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(460,8): warning C4101: 'Event': unreferenced local variable
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(777,8): warning C4133: 'function': incompatible types - from 'char [2]' to 'const CHAR16 *'
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(789,8): warning C4133: 'function': incompatible types - from 'char [2]' to 'const CHAR16 *'
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(790,8): warning C4133: 'function': incompatible types - from 'char [2]' to 'const CHAR16 *'
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(854,28): warning C4047: 'function': 'char' differs in levels of indirection from 'char [2]'
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(854,28): warning C4024: 'strtok': different types for formal and actual parameter 2
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(857,24): warning C4047: 'function': 'char' differs in levels of indirection from 'char [2]'
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(857,24): warning C4024: 'strtok': different types for formal and actual parameter 2
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(873,35): warning C4133: 'function': incompatible types - from 'unsigned short [2]' to 'char *'
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(873,41): warning C4047: 'function': 'char' differs in levels of indirection from 'CHAR16 **'
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(873,41): warning C4024: 'strtok': different types for formal and actual parameter 2
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(873,13): warning C4133: '=': incompatible types - from 'char *' to 'CHAR16 *'
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(875,28): warning C4133: 'function': incompatible types - from 'unsigned short [2]' to 'char *'
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(875,34): warning C4047: 'function': 'char' differs in levels of indirection from 'CHAR16 **'
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(875,34): warning C4024: 'strtok': different types for formal and actual parameter 2
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(875,9): warning C4133: '=': incompatible types - from 'char *' to 'CHAR16 *'
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(881,11): warning C4047: '==': 'CHAR16 *' differs in levels of indirection from 'int'
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(924,65): warning C4090: 'function': different 'const' qualifiers
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(1235,25): warning C4244: '+=': conversion from 'UINTN' to 'uint32_t', possible loss of data
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(747,1): warning C4715: 'efi_main': not all control paths return a value
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(1352,1): warning C4716: 'create_process': must return a value
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\bugcheck\bugcheck.c(290,15): warning C4133: 'function': incompatible types - from 'unsigned short [16]' to 'const char *'
+  (compiling source file '../../main.c')
+  
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\bugcheck\bugcheck.c(319,29): warning C4244: '+=': conversion from 'UINTN' to 'UINT32', possible loss of data
+  (compiling source file '../../main.c')
+  
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\bugcheck\bugcheck.c(325,2): warning C4098: 'strcpy1': 'void' function returning a value
+  (compiling source file '../../main.c')
+  
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(214,40): warning C4047: 'function': 'uint32_t' differs in levels of indirection from 'UINT32 *'
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(214,40): warning C4024: 'kernel_panic': different types for formal and actual parameter 2
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(258,3): warning C4098: 'KK': 'void' function returning a value
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(251,11): warning C4244: 'initializing': conversion from 'EFI_STATUS' to 'char', possible loss of data
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(507,19): warning C4047: '=': 'UINT32 *' differs in levels of indirection from 'UINT32'
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(670,40): warning C4047: 'function': 'uint32_t' differs in levels of indirection from 'UINT32 *'
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(670,40): warning C4024: 'kernel_panic': different types for formal and actual parameter 2
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(628,12): warning C4244: 'initializing': conversion from 'EFI_STATUS' to 'char', possible loss of data
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(463,8): warning C4101: 'Event': unreferenced local variable
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(703,8): warning C4133: 'function': incompatible types - from 'char [2]' to 'const CHAR16 *'
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(734,28): warning C4047: 'function': 'char' differs in levels of indirection from 'char [2]'
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(734,28): warning C4024: 'strtok': different types for formal and actual parameter 2
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(737,24): warning C4047: 'function': 'char' differs in levels of indirection from 'char [2]'
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(737,24): warning C4024: 'strtok': different types for formal and actual parameter 2
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(804,65): warning C4090: 'function': different 'const' qualifiers
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(1115,25): warning C4244: '+=': conversion from 'UINTN' to 'uint32_t', possible loss of data
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(1145,28): warning C4018: '<': signed/unsigned mismatch
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(1150,30): warning C4018: '<': signed/unsigned mismatch
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(673,1): warning C4715: 'efi_main': not all control paths return a value
+C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(1243,1): warning C4716: 'create_process': must return a value
   uefi-simple.vcxproj -> C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\x64\Debug\uefi-simple.efi

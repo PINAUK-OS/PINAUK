@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\ProximalElk6186\\Documents\\GitHub\\PINAUK\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ProximalElk6186\\Documents\\GitHub\\PINAUK\\bugcheck\\bugcheck.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:bugcheck\\bugcheck.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{DFA0BA98-D0BA-4176-9A34-B5BA6355B1DE}|.vs\\msvc\\uefi-simple.vcxproj|C:\\Users\\ProximalElk6186\\Documents\\GitHub\\PINAUK\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{DFA0BA98-D0BA-4176-9A34-B5BA6355B1DE}|.vs\\msvc\\uefi-simple.vcxproj|solutionrelative:main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DFA0BA98-D0BA-4176-9A34-B5BA6355B1DE}|.vs\\msvc\\uefi-simple.vcxproj|C:\\Users\\ProximalElk6186\\Documents\\GitHub\\PINAUK\\.vs\\msvc\\ports.asm||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{DFA0BA98-D0BA-4176-9A34-B5BA6355B1DE}|.vs\\msvc\\uefi-simple.vcxproj|solutionrelative:.vs\\msvc\\ports.asm||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ProximalElk6186\\Documents\\GitHub\\PINAUK\\Devices\\display.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Devices\\display.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ProximalElk6186\\Documents\\GitHub\\PINAUK\\acpi.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:acpi.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ProximalElk6186\\Documents\\GitHub\\PINAUK\\Devices\\_devices.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Devices\\_devices.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,45 +26,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "main.c",
               "DocumentMoniker": "C:\\Users\\ProximalElk6186\\Documents\\GitHub\\PINAUK\\main.c",
               "RelativeDocumentMoniker": "main.c",
               "ToolTip": "C:\\Users\\ProximalElk6186\\Documents\\GitHub\\PINAUK\\main.c",
               "RelativeToolTip": "main.c",
-              "ViewState": "AgIAAF8FAAAAAAAAAAAowFAFAAAHAAAAAAAAAA==",
+              "ViewState": "AgIAANsEAAAAiFhRGr8nwOkEAABbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2025-06-12T17:34:44.272Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ports.asm",
-              "DocumentMoniker": "C:\\Users\\ProximalElk6186\\Documents\\GitHub\\PINAUK\\.vs\\msvc\\ports.asm",
-              "RelativeDocumentMoniker": ".vs\\msvc\\ports.asm",
-              "ToolTip": "C:\\Users\\ProximalElk6186\\Documents\\GitHub\\PINAUK\\.vs\\msvc\\ports.asm",
-              "RelativeToolTip": ".vs\\msvc\\ports.asm",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-07-20T15:05:01.27Z",
+              "DocumentIndex": 0,
+              "Title": "bugcheck.c",
+              "DocumentMoniker": "C:\\Users\\ProximalElk6186\\Documents\\GitHub\\PINAUK\\bugcheck\\bugcheck.c",
+              "RelativeDocumentMoniker": "bugcheck\\bugcheck.c",
+              "ToolTip": "C:\\Users\\ProximalElk6186\\Documents\\GitHub\\PINAUK\\bugcheck\\bugcheck.c",
+              "RelativeToolTip": "bugcheck\\bugcheck.c",
+              "ViewState": "AgIAABEBAAAAAAAAAAAAACEBAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-08-12T14:57:30.713Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "_devices.c",
+              "DocumentMoniker": "C:\\Users\\ProximalElk6186\\Documents\\GitHub\\PINAUK\\Devices\\_devices.c",
+              "RelativeDocumentMoniker": "Devices\\_devices.c",
+              "ToolTip": "C:\\Users\\ProximalElk6186\\Documents\\GitHub\\PINAUK\\Devices\\_devices.c",
+              "RelativeToolTip": "Devices\\_devices.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-08-12T13:29:27.382Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "acpi.h",
-              "DocumentMoniker": "C:\\Users\\ProximalElk6186\\Documents\\GitHub\\PINAUK\\acpi.h",
-              "RelativeDocumentMoniker": "acpi.h",
-              "ToolTip": "C:\\Users\\ProximalElk6186\\Documents\\GitHub\\PINAUK\\acpi.h",
-              "RelativeToolTip": "acpi.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-07-20T14:32:31.495Z",
+              "Title": "display.c",
+              "DocumentMoniker": "C:\\Users\\ProximalElk6186\\Documents\\GitHub\\PINAUK\\Devices\\display.c",
+              "RelativeDocumentMoniker": "Devices\\display.c",
+              "ToolTip": "C:\\Users\\ProximalElk6186\\Documents\\GitHub\\PINAUK\\Devices\\display.c",
+              "RelativeToolTip": "Devices\\display.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-08-12T14:24:50.924Z",
               "EditorCaption": ""
             }
           ]
