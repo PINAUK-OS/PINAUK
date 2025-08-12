@@ -1,24 +1,29 @@
 # Contributing to PINAUK
 
-Fork -> PR
+1. [Fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) this repository.
+2. Make your changes
+3. [Create](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request) a pull request.
+> [!NOTE]
+> By committing, you have the right to, and actually do, grant us all the rights to use your contribution, to the fullest extend permittable by the law.
+> By proceeding to commit, you agree to this disclaimer.
 
-By committing, you have the right to, and actually do, grant us the rights to use your contribution, to the extent we feel the need to, to the fullest extend permittable by the law.
-
-
+> [!IMPORTANT]
+> Close Visual Studio before committing — otherwise the commit will fail because some files will be locked.
 
 ## Coding standards
 
 ### File Structure & Naming
 
-- Use snake case file naming (e.g., `snake_case.c`).
-- Separate declarations (`.h`) and definitions (`.c`) clearly.
+- Use **snake case file naming** (e.g., `snake_case.c`).
+- Separate declarations (`.h`) and definitions (`.c`) **clearly**[^1].
 - Use include guards (`#ifndef ...`).
-- Try to group related functions and types in dedicated files.
-
+- Try to group related functions and types in dedicated files[^2].
+[^1]: **"Clearly"** means in a different file, and naming the files the same.
+[^2]: For example, group all of the display functions in a file `display.c`.
 ### Code Formatting
 
 - Use one tab per indentation level.
-- Limit lines to 80–120 characters.
+- Limit lines to 80–120 characters[^3].
 - Use old-styled C :
   ```c
     if (condition) 
@@ -32,9 +37,9 @@ By committing, you have the right to, and actually do, grant us the rights to us
 - Add a space after commas: foo(a, b, c);
 
 - Use a blank line between blocks and functions.
-
+[^3]: There is no hard cap, but try to make the lines short.
 ### Naming Conventions
-- Use ```c snake_case``` for variables and functions.
+- Use ```c snake_case``` or ```c typeThemLikeThisIDontRememberThisCaseType``` for variables and functions.
  
 - Use ALL_CAPS for macros and constants.
  
@@ -43,7 +48,7 @@ By committing, you have the right to, and actually do, grant us the rights to us
 - Prefix global symbols to avoid name clashes (e.g., projname_funcname).
 
 ### Comments
-- Use // for short comments, /* ... */ for block comments.
+- Use ```c //``` for short comments, ```c /* ... */``` for block comments.
 - Each file should begin with a brief description of its purpose.
 - Comment each function with:
     ```c
