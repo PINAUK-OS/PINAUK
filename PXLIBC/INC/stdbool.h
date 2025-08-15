@@ -1,6 +1,6 @@
 #ifndef stdbool_h
 #define stdbool_h
-typedef _Bool bool;
+#define bool _Bool;
 #define NULL ((void*)0)
 #define true 1
 #define false 0

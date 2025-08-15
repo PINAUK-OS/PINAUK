@@ -8,9 +8,17 @@
 #include "Devices/_devices.c"
 #include "bugcheck/bugcheck.c"
 
+char* strcpy(char* dest, const char* src)	// I suppose VFS needs it
+{
+	char* orig = dest;
+	while ((*dest++ = *src++));
+	return orig;
+}
+
+#include "VirtualFileSystem/vfs.c"
 
 
-
+#include "Memory/memory.c"
 
 
 
@@ -71,12 +79,6 @@ void printstr(UINT32* framebuffer_base, uint32_t pixels_per_scanline, uint32_t s
 uint32_t currtextx, currtexty = 0;
 void test_sha256();
 // Why the fuck is it here and not in a custom libc implementation?
-char* strcpy(char* dest, const char* src) 
-{
-	char* orig = dest;
-	while ((*dest++ = *src++));
-	return orig;
-}
 char* strtok(char* str, char delim) 
 {
 	static char* next = NULL;
@@ -649,6 +651,27 @@ EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 	print(framebuffer, pitch, 0, 32, "IS INDEED WORKING CORRECTLY", 0xFFFFFFFF, 0x00000098);
 	test_sha256();
 	Print(L"\n");
+
+
+	// Do the malloc init (yeah, at the last moment possible)
+	pmm_init_args_t pmm_args;
+	boot_info_t boot_info;
+	boot_info.desc_size = sizeof(EFI_MEMORY_DESCRIPTOR);
+	boot_info.desc_ver = descriptorVersion;
+	boot_info.fb_pa = (EFI_PHYSICAL_ADDRESS)framebuffer;	// Physical address of framebuffer
+	boot_info.fb_size = pitch * height * sizeof(UINT32);	// Size of framebuffer in bytes
+	boot_info.kernel_start_pa = (EFI_PHYSICAL_ADDRESS)ImageHandle;	// Physical address of kernel start
+	boot_info.kernel_end_pa = (EFI_PHYSICAL_ADDRESS)ImageHandle + 0x100000;	// Physical address of kernel end, just a guess
+	boot_info.mmap = memoryMap;	// Memory map pointer
+	boot_info.mmap_size = sizeof(memoryMap);	// Memory map size in bytes
+	
+	pmm_args.bi = boot_info;	// Boot info pointer
+
+	pmm_init(&pmm_args);	// Initialize the physical memory manager
+
+	// Umm... I guess that's it?
+
+	Print(L"pmm_init");
 
 	// First call to get the required buffer size
 	gBS->GetMemoryMap(&memoryMapSize, memoryMap, &mapKey, &descriptorSize, &descriptorVersion);
