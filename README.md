@@ -5,6 +5,8 @@ Yeah, it uses UEFI-SIMPLE.
 
 Its license is in the LICENSE file.
 
+## Join the project's Discord!
+[Discord](https://discord.com/pDyJuJy3hK)
 
 ## What is PINAUK?
 PINAUK means "**P**INAUK **I**s **N**ot an **A**nother **U**nix **K**ernel".
