@@ -1,86 +1,77 @@
 ﻿  main.c
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\bugcheck\bugcheck.c(290,15): warning C4133: 'function': incompatible types - from 'unsigned short [16]' to 'const char *'
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\bugcheck\bugcheck.c(290,15): warning C4133: 'function': incompatible types - from 'unsigned short [16]' to 'const char *'
   (compiling source file '../../main.c')
   
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\bugcheck\bugcheck.c(319,29): warning C4244: '+=': conversion from 'UINTN' to 'UINT32', possible loss of data
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\bugcheck\bugcheck.c(319,29): warning C4244: '+=': conversion from 'UINTN' to 'UINT32', possible loss of data
   (compiling source file '../../main.c')
   
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\bugcheck\bugcheck.c(325,2): warning C4098: 'strcpy1': 'void' function returning a value
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\bugcheck\bugcheck.c(325,2): warning C4098: 'strcpy1': 'void' function returning a value
   (compiling source file '../../main.c')
   
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\PXLIBC\INC\stdlib.h(3,6): warning C4273: 'srand': inconsistent dll linkage
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\PXLIBC\INC\stdlib.h(3,6): warning C4273: 'srand': inconsistent dll linkage
   (compiling source file '../../main.c')
-      C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\ucrt\stdlib.h(350,23):
+      W:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\ucrt\stdlib.h(350,23):
       see previous definition of 'srand'
   
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\PXLIBC\INC\stdlib.h(4,5): warning C4273: 'rand': inconsistent dll linkage
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\PXLIBC\INC\stdlib.h(4,5): warning C4273: 'rand': inconsistent dll linkage
   (compiling source file '../../main.c')
-      C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\ucrt\stdlib.h(352,37):
+      W:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\ucrt\stdlib.h(352,37):
       see previous definition of 'rand'
   
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\PXLIBC\INC\stdlib.h(5,7): warning C4273: 'malloc': inconsistent dll linkage
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\PXLIBC\INC\stdlib.h(5,7): warning C4273: 'malloc': inconsistent dll linkage
   (compiling source file '../../main.c')
-      C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\ucrt\corecrt_malloc.h(101,15):
+      W:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\ucrt\corecrt_malloc.h(101,15):
       see previous definition of 'malloc'
   
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\PXLIBC\INC\stdlib.h(6,6): warning C4273: 'free': inconsistent dll linkage
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\PXLIBC\INC\stdlib.h(6,6): warning C4273: 'free': inconsistent dll linkage
   (compiling source file '../../main.c')
-      C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\ucrt\corecrt_malloc.h(89,14):
+      W:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\ucrt\corecrt_malloc.h(89,14):
       see previous definition of 'free'
   
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\VirtualFileSystem\vfs.c(42,5): warning C4013: 'strncpy' undefined; assuming extern returning int
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\VirtualFileSystem\vfs.c(67,29): warning C4047: 'function': 'char' differs in levels of indirection from 'char [2]'
   (compiling source file '../../main.c')
   
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\VirtualFileSystem\vfs.c(66,29): warning C4047: 'function': 'char' differs in levels of indirection from 'char [2]'
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\VirtualFileSystem\vfs.c(67,29): warning C4024: 'strtok': different types for formal and actual parameter 2
   (compiling source file '../../main.c')
   
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\VirtualFileSystem\vfs.c(66,29): warning C4024: 'strtok': different types for formal and actual parameter 2
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\VirtualFileSystem\vfs.c(78,28): warning C4047: 'function': 'char' differs in levels of indirection from 'char [2]'
   (compiling source file '../../main.c')
   
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\VirtualFileSystem\vfs.c(71,17): warning C4013: 'strcmp' undefined; assuming extern returning int
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\VirtualFileSystem\vfs.c(78,28): warning C4024: 'strtok': different types for formal and actual parameter 2
   (compiling source file '../../main.c')
   
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\VirtualFileSystem\vfs.c(77,28): warning C4047: 'function': 'char' differs in levels of indirection from 'char [2]'
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\Memory\mem.c(118,5): warning C4013: 'memset' undefined; assuming extern returning int
   (compiling source file '../../main.c')
   
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\VirtualFileSystem\vfs.c(77,28): warning C4024: 'strtok': different types for formal and actual parameter 2
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\Memory\kernel_heap.c(117,5): warning C4013: 'memcpy' undefined; assuming extern returning int
   (compiling source file '../../main.c')
   
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\Memory\mem.c(118,5): warning C4013: 'memset' undefined; assuming extern returning int
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\Memory\paging_hooks.c(23,23): warning C4013: 'walk_page_tables_and_unmap' undefined; assuming extern returning int
   (compiling source file '../../main.c')
   
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\Memory\kernel_heap.c(117,5): warning C4013: 'memcpy' undefined; assuming extern returning int
-  (compiling source file '../../main.c')
-  
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\Memory\paging_hooks.c(23,23): warning C4013: 'walk_page_tables_and_unmap' undefined; assuming extern returning int
-  (compiling source file '../../main.c')
-  
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(216,40): warning C4047: 'function': 'uint32_t' differs in levels of indirection from 'UINT32 *'
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(216,40): warning C4024: 'kernel_panic': different types for formal and actual parameter 2
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(260,3): warning C4098: 'KK': 'void' function returning a value
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(253,11): warning C4244: 'initializing': conversion from 'EFI_STATUS' to 'char', possible loss of data
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(509,19): warning C4047: '=': 'UINT32 *' differs in levels of indirection from 'UINT32'
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(665,17): warning C4047: '=': 'uint64_t' differs in levels of indirection from 'EFI_MEMORY_DESCRIPTOR *'
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(693,40): warning C4047: 'function': 'uint32_t' differs in levels of indirection from 'UINT32 *'
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(693,40): warning C4024: 'kernel_panic': different types for formal and actual parameter 2
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(630,12): warning C4244: 'initializing': conversion from 'EFI_STATUS' to 'char', possible loss of data
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(465,8): warning C4101: 'Event': unreferenced local variable
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(726,8): warning C4133: 'function': incompatible types - from 'char [2]' to 'const CHAR16 *'
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(757,28): warning C4047: 'function': 'char' differs in levels of indirection from 'char [2]'
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(757,28): warning C4024: 'strtok': different types for formal and actual parameter 2
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(760,24): warning C4047: 'function': 'char' differs in levels of indirection from 'char [2]'
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(760,24): warning C4024: 'strtok': different types for formal and actual parameter 2
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(827,65): warning C4090: 'function': different 'const' qualifiers
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(1138,25): warning C4244: '+=': conversion from 'UINTN' to 'uint32_t', possible loss of data
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(1168,28): warning C4018: '<': signed/unsigned mismatch
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(1173,30): warning C4018: '<': signed/unsigned mismatch
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\Memory\paging_hooks.c(16,1): warning C4715: 'vm_map_new_heap_pages': not all control paths return a value
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(1266,1): warning C4716: 'create_process': must return a value
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(696,1): warning C4715: 'efi_main': not all control paths return a value
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(660,1): warning C4700: uninitialized local variable 'descriptorVersion' used
-main.obj : error LNK2019: unresolved external symbol __imp_calloc referenced in function vfs_create_node
-main.obj : error LNK2019: unresolved external symbol strncpy referenced in function vfs_create_node
-main.obj : error LNK2019: unresolved external symbol strcmp referenced in function vfs_lookup
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(216,40): warning C4047: 'function': 'uint32_t' differs in levels of indirection from 'UINT32 *'
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(216,40): warning C4024: 'kernel_panic': different types for formal and actual parameter 2
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(260,3): warning C4098: 'KK': 'void' function returning a value
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(253,11): warning C4244: 'initializing': conversion from 'EFI_STATUS' to 'char', possible loss of data
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(509,19): warning C4047: '=': 'UINT32 *' differs in levels of indirection from 'UINT32'
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(665,17): warning C4047: '=': 'uint64_t' differs in levels of indirection from 'EFI_MEMORY_DESCRIPTOR *'
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(693,40): warning C4047: 'function': 'uint32_t' differs in levels of indirection from 'UINT32 *'
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(693,40): warning C4024: 'kernel_panic': different types for formal and actual parameter 2
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(630,12): warning C4244: 'initializing': conversion from 'EFI_STATUS' to 'char', possible loss of data
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(465,8): warning C4101: 'Event': unreferenced local variable
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(726,8): warning C4133: 'function': incompatible types - from 'char [2]' to 'const CHAR16 *'
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(757,28): warning C4047: 'function': 'char' differs in levels of indirection from 'char [2]'
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(757,28): warning C4024: 'strtok': different types for formal and actual parameter 2
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(760,24): warning C4047: 'function': 'char' differs in levels of indirection from 'char [2]'
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(760,24): warning C4024: 'strtok': different types for formal and actual parameter 2
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(827,65): warning C4090: 'function': different 'const' qualifiers
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(1138,25): warning C4244: '+=': conversion from 'UINTN' to 'uint32_t', possible loss of data
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(1168,28): warning C4018: '<': signed/unsigned mismatch
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(1173,30): warning C4018: '<': signed/unsigned mismatch
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\Memory\paging_hooks.c(16,1): warning C4715: 'vm_map_new_heap_pages': not all control paths return a value
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(1266,1): warning C4716: 'create_process': must return a value
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(696,1): warning C4715: 'efi_main': not all control paths return a value
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\main.c(660,1): warning C4700: uninitialized local variable 'descriptorVersion' used
 main.obj : error LNK2019: unresolved external symbol va_map_temp_pages referenced in function pmm_init
 main.obj : error LNK2019: unresolved external symbol walk_page_tables_and_unmap referenced in function vm_unmap_heap_pages
-C:\Users\ProximalElk6186\Documents\GitHub\PINAUK\x64\Debug\uefi-simple.efi : fatal error LNK1120: 5 unresolved externals
+W:\Users\ProximalElk6186\Documents\GitHub\PINAUK\x64\Debug\uefi-simple.efi : fatal error LNK1120: 2 unresolved externals

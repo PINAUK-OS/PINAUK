@@ -1,4 +1,5 @@
 #include "../PXLIBC/INC/stdlib.h"
+#include "../PXLIBC/INC/string.h"
 
 char* strtok(char* str, char delim);
 // ----------------------------

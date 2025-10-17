@@ -1276,7 +1276,5 @@ void kmain(UINT32* framebuffer_base, uint32_t pixels_per_scanline, uint32_t scre
 {
 	neotermout_cls(framebuffer_base, pixels_per_scanline, screen_height, 0xFFFFFFFF, 0x00000098);
 	print(framebuffer_base, pixels_per_scanline, 0, 0, "HELLO, KMAIN!\0", 0xFFFFFFFF, 0x00000098);
-	//kernel_panic(framebuffer_base, pixels_per_scanline, screen_height, "Kernel panic: This is a test panic message.");
-	//for (;;);
 	KeBugCheck2(framebuffer_base, pixels_per_scanline, screen_width, screen_height, 0x00000000);
 }
