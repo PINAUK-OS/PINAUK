@@ -22,6 +22,9 @@ if not exist "C:\PBFT\temp.txt" (
 :: We're now elevated. I guess... if the previous usage hasn't failed. Anyways... Load the previously stored script directory
 set /p ScriptDir=<C:\PBFT\temp.txt
 
+:: Print the disclaimer (VERY IMPORTANT, READ IT CAREFULLY MULTPILE TIMES!!!!!!)
+echo DOUBLE- AND TRIPLE-CHECK WHAT YOU HAVE INPUTED! THE SCRIPT MAKES ABSOLUTELY ZERO CHECKS AND INPUTING INCORRECT DATA WILL RESULT IN A DATA LOSS!!! YOU'VE BEEN WARNED.
+
 :: Show available disks
 (echo list disk
 echo exit
