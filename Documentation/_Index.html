@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PINAUK documentation</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+        }
+        body {
+            color: light-dark(#1f1f1f, #fbfbfe);
+            background-color: light-dark(#fbfbfe, #1f1f1f);
+            font-family:sans-serif;
+        }
+        .term {
+            margin-left: 20px;
+            font-weight:bold;
+        }
+        .definition {
+            font-weight:normal;
+            margin-left: 16px;
+            margin-top:  5px;
+        }
+        .definition-sort-letter {
+            font-weight:900;
+        }
+    </style>
+</head>
+<body>
+    <h1>PINAUK documentation</h1>
+    <details>
+        <summary>Contents</summary>
+    </details>
+    <h2>Definitions</h2>
+    <details>
+        <summary class="definition-sort-letter">A</summary>
+        <details class="term">
+            <summary>Application</summary>
+            <p class="definition">The PINAUK OS kernel</p>
+        </details>
+    </details>
+
+    <h2>Internal OS functions</h2>
+    This part discusses the different internal functions of PINAUK kernel.
+    <h3>efi_main();</h3>
+    <details>
+        <h6>Parameters: EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable</h6>
+    </details>
+    <br>
+    <br>
+    This function is the entry point of the kernel — the UEFI firmware executes this first when the application is started.
+</body>
+</html>
